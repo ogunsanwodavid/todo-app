@@ -75,10 +75,10 @@ function App() {
     { id: "2", content: "Jog around the park 3x", status: "active" },
     { id: "3", content: "10 minutes meditation", status: "active" },
     { id: "4", content: "Read for 1 hour", status: "active" },
-    { id: "4", content: "Read for 1 hour", status: "active" },
-    { id: "5", content: "Pick up groceries", status: "active" },
+    { id: "5", content: "Read for 1 hour", status: "active" },
+    { id: "6", content: "Pick up groceries", status: "active" },
     {
-      id: "6",
+      id: "7",
       content: "Complete Todo App on Frontend Mentor",
       status: "completed",
     },

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 import iconSun from "../assets/icon-sun.svg";
@@ -23,6 +23,7 @@ function Homepage({
   }
 
   const [newTaskContent, setNewTaskContent] = useState("");
+  const [newTaskId, setNewTaskId] = useState("");
 
   {
     /*** Check is a new task content added is new */
@@ -36,6 +37,28 @@ function Homepage({
   }
 
   {
+    /** This handles creation of an id for a new task to prevent duplication of ids */
+  }
+  useEffect(() => {
+    function createNewTaskId() {
+      let someArray = [];
+
+      allTasks.map((task) => {
+        someArray = [...someArray, Number(task.id)];
+      });
+
+      const y =
+        someArray.reduce((a, b) => {
+          return b - a > 0 ? b : a;
+        }) + 1;
+
+      setNewTaskId(y.toString());
+    }
+
+    createNewTaskId();
+  }, [allTasks, setNewTaskId]);
+
+  {
     /**Handles the creation of new task */
   }
   function handleCreateTask() {
@@ -45,7 +68,7 @@ function Homepage({
     setAllTasks([
       ...allTasks,
       {
-        id: (allTasks.length + 1).toString(),
+        id: newTaskId,
         content: newTaskContent,
         status: "active",
       },
@@ -85,6 +108,7 @@ function Homepage({
           />
         </section>
       </nav>
+
       {/*** New Todo Creator */}
       <section className="w-full flex items-center space-x-4 bg-white rounded-md p-3 mt-7 dark:bg-darkMode-veryDarkDesaturatedBlue md:mt-10 md:p-4">
         {/*** Circle */}
@@ -110,7 +134,7 @@ function Homepage({
       {/*** Statistics Display */}
       <section className="w-full flex items-center justify-between bg-white font-bold rounded-md mt-1 p-3 text-lightMode-darkGrayishBlue text-lg dark:text-darkMode-darkGrayishBlue  dark:bg-darkMode-veryDarkDesaturatedBlue md:text-xl">
         {/*** Displays number of active tasks */}
-        <p className="hover:text-lightMode-veryDarkGrayishBlue dark:hover:text-darkMode-lightGrayishBlueHover">
+        <p className="cursor-pointer md:hover:text-lightMode-veryDarkGrayishBlue dark:md:hover:text-darkMode-lightGrayishBlueHover">
           {activeTasks.length} {activeTasks.length > 1 ? "items" : "item"} left
         </p>
 
@@ -119,19 +143,19 @@ function Homepage({
           <section className="w-max flex justify-center space-x-5 bg-white font-bold p-0 text-lightMode-darkGrayishBlue dark:text-darkMode-darkGrayishBlue  dark:bg-darkMode-veryDarkDesaturatedBlue ">
             <NavLink
               to="/"
-              className="hover:text-lightMode-veryDarkGrayishBlue dark:hover:text-darkMode-lightGrayishBlueHover"
+              className="md:hover:text-lightMode-veryDarkGrayishBlue dark:md:hover:text-darkMode-lightGrayishBlueHover"
             >
               All
             </NavLink>
             <NavLink
               to="/active"
-              className="hover:text-lightMode-veryDarkGrayishBlue dark:hover:text-darkMode-lightGrayishBlueHover"
+              className="md:hover:text-lightMode-veryDarkGrayishBlue dark:md:hover:text-darkMode-lightGrayishBlueHover"
             >
               Active
             </NavLink>
             <NavLink
               to="/completed"
-              className="hover:text-lightMode-veryDarkGrayishBlue dark:hover:text-darkMode-lightGrayishBlueHover"
+              className="md:hover:text-lightMode-veryDarkGrayishBlue dark:md:hover:text-darkMode-lightGrayishBlueHover"
             >
               Completed
             </NavLink>
@@ -141,7 +165,7 @@ function Homepage({
         {/*** Handles clearing of completed tasks */}
         <div
           onClick={handleClearCompletedTasks}
-          className="hover:text-lightMode-veryDarkGrayishBlue dark:hover:text-darkMode-lightGrayishBlueHover"
+          className="cursor-pointer md:hover:text-lightMode-veryDarkGrayishBlue dark:md:hover:text-darkMode-lightGrayishBlueHover"
         >
           Clear Completed
         </div>
@@ -149,7 +173,7 @@ function Homepage({
 
       {/*** Navigation Links for mobile view*/}
       {!isDesktopWidth ? (
-        <section className="w-full flex justify-center space-x-5 bg-white font-bold rounded-md mt-4 p-3 text-lightMode-darkGrayishBlue text-lg dark:text-darkMode-darkGrayishBlue  dark:bg-darkMode-veryDarkDesaturatedBlue hover:text-lightMode-veryLightGray dark:hover:text-darkMode-lightGrayishBlueHover">
+        <section className="w-full flex justify-center space-x-5 bg-white font-bold rounded-md mt-4 p-3 text-lightMode-darkGrayishBlue text-lg dark:text-darkMode-darkGrayishBlue  dark:bg-darkMode-veryDarkDesaturatedBlue ">
           <NavLink to="/">All</NavLink>
           <NavLink to="/active">Active</NavLink>
           <NavLink to="/completed">Completed</NavLink>

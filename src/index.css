@@ -21,6 +21,12 @@ button {
   font-family: Josefin Sans, sans-serif;
 }
 
+a,
+button,
+select {
+  cursor: pointer;
+}
+
 .active {
   color: hsl(220, 98%, 61%) !important;
 }
